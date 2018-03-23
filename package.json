@@ -1,0 +1,36 @@
+{
+    "name": "automaton-schema-intellisense",
+    "displayName": "Automaton Schema Intellisense",
+    "description": "Automaton JSON schema validator",
+    "version": "0.1.0",
+    "publisher": "abhivijay96",
+    "engines": {
+        "vscode": "^1.21.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.sayHello"
+    ],
+    "main": "./extension",
+    "contributes": {
+        "jsonValidation": [
+            {
+                "fileMatch": "*.atmt.json",
+                "url": "./schema.json"
+            }
+        ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "eslint": "^4.11.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
