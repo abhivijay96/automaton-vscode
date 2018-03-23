@@ -4,7 +4,7 @@ Intellisense for Automaton JSON schema. Activates on `*.atmt.json` files. Automa
 
 ## Features
 
-![DEMO](./images/demo.gif)
+![DEMO](https://github.com/abhivijay96/automaton-vscode/raw/master/images/demo.gif)
 
 > GIF shows using intellisense to quickly write a correct automaton schema.
 
