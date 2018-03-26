@@ -10,7 +10,7 @@ Intellisense for Automaton JSON schema. Activates on `*.atmt.json` files. Automa
 
 ## Requirements
 
-Install `acli` to compile `*.atmt.json`, install `acli` with `npm install -g acli`
+Install `atmt` to compile `*.atmt.json`, install `atmt` with `npm install -g atmt`
 
 ## Release Notes
 
