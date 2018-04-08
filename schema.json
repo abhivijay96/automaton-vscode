@@ -1,363 +1,404 @@
 {
 	"properties": {
-	  "token": {
-		"type": "string"
-	  },
-	  "intents": {
-		"type": "array",
-		"items": {
-		  "$ref": "#/definitions/intent"
+		"token": {
+			"type": "string"
+		},
+		"intents": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/intent"
+			}
+		},
+		"subIntents": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/subIntent"
+			}
+		},
+		"entities": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/entity"
+			}
+		},
+		"microBots": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/microBot"
+			}
 		}
-	  },
-	  "subIntents": {
-		"type": "array",
-		"items": {
-		  "$ref": "#/definitions/subIntent"
-		}
-	  },
-	  "entities": {
-		"type": "array",
-		"items": {
-		  "$ref": "#/definitions/entity"
-		}
-	  },
-	  "microBots": {
-		"type": "array",
-		"items": {
-		  "$ref": "#/definitions/microBot"
-		}
-	  }
 	},
 	"required": [
-	  "intents",
-	  "token",
-	  "subIntents",
-	  "entities",
-	  "microBots"
+		"intents",
+		"token",
+		"subIntents",
+		"entities",
+		"microBots"
 	],
 	"defaultSnippets": [
-	  {
-		"label": "Bot",
-		"description": "Bot in automaton schema",
-		"body": {
-		  "intents": [],
-		  "token": "dialogFlowToken",
-		  "subIntents": [],
-		  "entities": [],
-		  "microBots": []
+		{
+			"label": "Bot",
+			"description": "Bot in automaton schema",
+			"body": {
+				"intents": [],
+				"token": "dialogFlowToken",
+				"subIntents": [],
+				"entities": [],
+				"microBots": []
+			}
 		}
-	  }
 	],
 	"description": "Creates the root automaton schema object",
 	"definitions": {
-	  "parameter": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "type": {
-			"type": "string"
-		  },
-		  "isList": {
-			"type": "boolean"
-		  }
+		"parameter": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"type": {
+					"type": "string"
+				},
+				"isList": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"name",
+				"type",
+				"isList"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Parameter",
+					"description": "param collected with intent",
+					"body": {
+						"name": "$name",
+						"type": "$dialogFlowType",
+						"isList": false
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "type",
-		  "isList"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "Parameter",
-			"description": "param collected with intent",
-			"body": {
-			  "name": "$name",
-			  "type": "$dialogFlowType",
-			  "isList": false
-			}
-		  }
-		]
-	  },
-	  "response": {
-		"type": "object",
-		"properties": {
-		  "type": {
-			"enum": ["mb", "text", "function"]
-		  },
-		  "value": {
-			"type": "string"
-		  }
+		"response": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"enum": [
+						"mb",
+						"text",
+						"function"
+					]
+				},
+				"value": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"type",
+				"value"
+			],
+			"defaultSnippets": [
+				{
+					"label": "State Response",
+					"description": "Response for a state",
+					"body": {
+						"type": "$text,mb,function",
+						"value": "$value"
+					}
+				}
+			]
 		},
-		"required": [
-		  "type",
-		  "value"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "State Response",
-			"description": "Response for a state",
-			"body": {
-			  "type": "$text,mb,function",
-			  "value": "$value"
-			}
-		  }
-		]
-	  },
-	  "intent": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "utterances": {
-			"type": "array",
-			"items": {
-			  "type": "string"
-			}
-		  },
-		  "parameters": {
-			"type": "array",
-			"items": {
-			  "$ref": "#/definitions/parameter"
-			}
-		  },
-		  "response": {
-			"$ref": "#/definitions/response"
-		  },
-		  "required": [
-			"name",
-			"utterances",
-			"parameters",
-			"response"
-		  ]
+		"intent": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"utterances": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"parameters": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/parameter"
+					}
+				},
+				"response": {
+					"$ref": "#/definitions/response"
+				},
+				"required": [
+					"name",
+					"utterances",
+					"parameters",
+					"response"
+				]
+			},
+			"defaultSnippets": [
+				{
+					"label": "Intent",
+					"description": "Triggering intent",
+					"body": {
+						"name": "$intentName",
+						"utterances": [],
+						"parameters": [],
+						"response": {}
+					}
+				}
+			]
 		},
-		"defaultSnippets": [
-		  {
-			"label": "Intent",
-			"description": "Triggering intent",
-			"body": {
-			  "name": "$intentName",
-			  "utterances": [],
-			  "parameters": [],
-			  "response": {
-				
-			  }
-			}
-		  }
-		]
-	  },
-	  "entity": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "values": {
-			"type": "array",
-			"items": {
-			  "type": "string"
-			}
-		  }
+		"entity": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"values": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": [
+				"name",
+				"values"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Entity",
+					"description": "Entity used in the NLP model, add elements to this array only if you are using dialogflow flag with acli",
+					"body": {
+						"name": "$entityName",
+						"values": []
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "values"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "Entity",
-			"description": "Entity used in the NLP model, add elements to this array only if you are using dialogflow flag with acli",
-			"body": {
-			  "name": "$entityName",
-			  "values": []
-			}
-		  }
-		]
-	  },
-	  "tReply": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "reply": {
-			"type": "string"
-		  }
+		"tReply": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"reply": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"name",
+				"reply"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Transition text Reply",
+					"body": {
+						"name": "$onIntent",
+						"reply": "$whatever"
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "reply"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "Transition text Reply",
-			"body": {
-			  "name": "$onIntent",
-			  "reply": "$whatever"
-			}
-		  }
-		]
-	  },
-	  "tFunction": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "function": {
-			"type": "string"
-		  }
+		"tMb": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"mb": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				}
+			},
+			"required": [
+				"name",
+				"mb"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Transition MircroBot reply",
+					"body": {
+						"name": "$onIntent",
+						"mb": "$whatever"
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "function"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "Transition function Reply",
-			"body": {
-			  "name": "$onIntent",
-			  "function": "$whatever"
-			}
-		  }
-		]
-	  },
-	  "tNextState": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "nextState": {
-			"type": "string"
-		  }
+		"tFunction": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"function": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				}
+			},
+			"required": [
+				"name",
+				"function"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Transition function Reply",
+					"body": {
+						"name": "$onIntent",
+						"function": "$whatever"
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "nextState"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "Transition next State",
-			"body": {
-			  "name": "$onIntent",
-			  "nextState": "$stateName"
-			}
-		  }
-		]
-	  },
-	  "transition": {
-		"type": "object",
-		"oneOf": [
-		  {
-			"$ref": "#/definitions/tReply"
-		  },
-		  {
-			"$ref": "#/definitions/tFunction"
-		  },
-		  {
-			"$ref": "#/definitions/tNextState"
-		  }
-		]
-	  },
-	  "state": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "response": {
-			"$ref": "#/definitions/response"
-		  },
-		  "transitions": {
-			"type": "array",
-			"items": {
-			  "$ref": "#/definitions/transition"
-			}
-		  }
+		"tNextState": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"nextState": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				}
+			},
+			"required": [
+				"name",
+				"nextState"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Transition next State",
+					"body": {
+						"name": "$onIntent",
+						"nextState": "$stateName"
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "response",
-		  "transitions"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "New state in this microbot",
-			"body": {
-			  "name": "$stateName",
-			  "response": {
-			  },
-			  "transitions": []
-			}
-		  }
-		]
-	  },
-	  "subIntent": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "utterances": {
-			"type": "array",
-			"items": {
-			  "type": "string"
-			}
-		  },
-		  "parameters": {
-			"type": "array",
-			"items": {
-			  "$ref": "#/definitions/parameter"
-			}
-		  }
+		"transition": {
+			"type": "object",
+			"oneOf": [
+				{
+					"$ref": "#/definitions/tReply"
+				},
+				{
+					"$ref": "#/definitions/tFunction"
+				},
+				{
+					"$ref": "#/definitions/tNextState"
+				},
+				{
+					"$ref": "#/definitions/tMb"
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "utterances",
-		  "parameters"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "Sub Intent",
-			"description": "Helping intent",
-			"body": {
-			  "name": "$intentName",
-			  "utterances": [],
-			  "parameters": []
-			}
-		  }
-		]
-	  },
-	  "microBot": {
-		"type": "object",
-		"properties": {
-		  "name": {
-			"type": "string"
-		  },
-		  "states": {
-			"type": "array",
-			"items": {
-			  "$ref": "#/definitions/state"
-			}
-		  }
+		"state": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"response": {
+					"$ref": "#/definitions/response"
+				},
+				"transitions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/transition"
+					}
+				}
+			},
+			"required": [
+				"name",
+				"response",
+				"transitions"
+			],
+			"defaultSnippets": [
+				{
+					"label": "New state in this microbot",
+					"body": {
+						"name": "$stateName",
+						"response": {},
+						"transitions": []
+					}
+				}
+			]
 		},
-		"required": [
-		  "name",
-		  "states"
-		],
-		"defaultSnippets": [
-		  {
-			"label": "micro bot",
-			"description": "Microbot is a small state machine dedicated to handle a path of the dialog tree",
-			"body": {
-			  "name": "$microBotName",
-			  "states": []
-			}
-		  }
-		]
-	  }
+		"subIntent": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"utterances": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"parameters": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/parameter"
+					}
+				}
+			},
+			"required": [
+				"name",
+				"utterances",
+				"parameters"
+			],
+			"defaultSnippets": [
+				{
+					"label": "Sub Intent",
+					"description": "Helping intent",
+					"body": {
+						"name": "$intentName",
+						"utterances": [],
+						"parameters": []
+					}
+				}
+			]
+		},
+		"microBot": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"pattern": "^[A-Za-z0-9]+$"
+				},
+				"states": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/state"
+					}
+				}
+			},
+			"required": [
+				"name",
+				"states"
+			],
+			"defaultSnippets": [
+				{
+					"label": "micro bot",
+					"description": "Microbot is a small state machine dedicated to handle a path of the dialog tree",
+					"body": {
+						"name": "$microBotName",
+						"states": []
+					}
+				}
+			]
+		}
 	}
-  }
+}
